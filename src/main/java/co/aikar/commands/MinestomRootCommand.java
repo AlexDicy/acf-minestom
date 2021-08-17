@@ -44,8 +44,27 @@ public class MinestomRootCommand extends Command implements RootCommand, Command
 
             for(Map.Entry<String, RegisteredCommand> entry : command.subCommands.entries()) {
                 if(entry.getValue().complete.isEmpty()) {
-                    addSyntax(this, ArgumentType.Literal(entry.getKey()));
-                } else if(!entry.getKey().equals("__default")) {
+                    if (!entry.getKey().equals(BaseCommand.DEFAULT)) {
+                        addSyntax(this, ArgumentType.Literal(entry.getKey()));
+                    }
+                } else if(entry.getKey().equals(BaseCommand.DEFAULT)) {
+                    String[] complete = entry.getValue().complete.split(" ");
+
+                    Argument<?>[] arguments = new Argument[complete.length];
+
+                    for(int i=0; i<arguments.length; i++) {
+                        String id = complete[i].toLowerCase().replaceAll("[^a-z0-9/._-]", "");
+
+                        if(complete[i].equalsIgnoreCase("@players")) {
+                            arguments[i] = ArgumentType.Entity(id).onlyPlayers(true);
+                        } else {
+                            arguments[i] = ArgumentType.String(id);
+                            arguments[i].setSuggestionCallback(this);
+                        }
+                    }
+
+                    addSyntax(this, arguments);
+                } else {
                     String[] complete = entry.getValue().complete.split(" ");
 
                     Argument<?>[] arguments = new Argument[complete.length+1];
