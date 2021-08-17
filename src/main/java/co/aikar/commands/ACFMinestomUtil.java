@@ -1,8 +1,9 @@
 package co.aikar.commands;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.minestom.server.MinecraftServer;
-import net.minestom.server.chat.ChatColor;
-import net.minestom.server.chat.ColoredText;
 import net.minestom.server.command.CommandSender;
 import net.minestom.server.entity.Player;
 import net.minestom.server.item.ItemStack;
@@ -14,8 +15,8 @@ import java.util.stream.Collectors;
 
 public class ACFMinestomUtil {
 
-    public static ColoredText color(String message) {
-        return ColoredText.ofLegacy(message, '&');
+    public static Component color(String message) {
+        return LegacyComponentSerializer.legacyAmpersand().deserialize(message);
     }
 
     public static Player findPlayerSmart(CommandIssuer issuer, String search) {
@@ -66,11 +67,11 @@ public class ACFMinestomUtil {
         return item != null && item.getMaterial() != Material.AIR && item.getAmount() > 0;
     }
 
-    static ChatColor[] getAllChatColors() {
-        return new ChatColor[] {ChatColor.BLACK, ChatColor.BOLD, ChatColor.BRIGHT_GREEN, ChatColor.BLUE, ChatColor.CYAN
-                , ChatColor.DARK_BLUE, ChatColor.DARK_CYAN, ChatColor.DARK_GRAY, ChatColor.DARK_GREEN, ChatColor.DARK_RED
-                , ChatColor.GOLD, ChatColor.GRAY, ChatColor.ITALIC, ChatColor.NO_COLOR, ChatColor.OBFUSCATED, ChatColor.PINK
-                , ChatColor.PURPLE, ChatColor.RED, ChatColor.RESET, ChatColor.STRIKETHROUGH, ChatColor.UNDERLINED, ChatColor.WHITE, ChatColor.YELLOW};
+    static NamedTextColor[] getAllChatColors() {
+        return new NamedTextColor[] {NamedTextColor.BLACK, NamedTextColor.GREEN, NamedTextColor.BLUE, NamedTextColor.AQUA
+                , NamedTextColor.DARK_BLUE, NamedTextColor.DARK_AQUA, NamedTextColor.DARK_GRAY, NamedTextColor.DARK_GREEN, NamedTextColor.DARK_RED
+                , NamedTextColor.GOLD, NamedTextColor.GRAY, NamedTextColor.LIGHT_PURPLE
+                , NamedTextColor.DARK_PURPLE, NamedTextColor.RED, NamedTextColor.WHITE, NamedTextColor.YELLOW};
     }
 
 }

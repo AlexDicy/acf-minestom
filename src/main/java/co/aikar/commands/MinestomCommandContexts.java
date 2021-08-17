@@ -1,11 +1,12 @@
 package co.aikar.commands;
 
-import net.minestom.server.chat.ChatColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.minestom.server.command.CommandSender;
+import net.minestom.server.coordinate.Point;
+import net.minestom.server.coordinate.Pos;
+import net.minestom.server.coordinate.Vec;
 import net.minestom.server.entity.Player;
 import net.minestom.server.inventory.PlayerInventory;
-import net.minestom.server.utils.BlockPosition;
-import net.minestom.server.utils.Position;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -49,15 +50,10 @@ public class MinestomCommandContexts extends CommandContexts<MinestomCommandExec
                 return getPlayer(c.getIssuer(), arg, isOptional);
             }
         });
-        registerContext(ChatColor.class, c -> {
+        registerContext(NamedTextColor.class, c -> {
             String first = c.popFirstArg();
-            ChatColor match = ChatColor.fromName(first);
-            if (c.hasFlag("colorsonly")) {
-                if (match.isSpecial()) {
-                    match = ChatColor.NO_COLOR;
-                }
-            }
-            if (match.equals(ChatColor.NO_COLOR)) {
+            NamedTextColor match = NamedTextColor.NAMES.value(first);
+            if (match == null) {
                 String valid = Stream.of(ACFMinestomUtil.getAllChatColors())
                         .map(color -> "<c2>" + ACFUtil.simplifyString(color.toString()) + "</c2>")
                         .collect(Collectors.joining("<c1>,</c1> "));
@@ -65,10 +61,10 @@ public class MinestomCommandContexts extends CommandContexts<MinestomCommandExec
             }
             return match;
         });
-        registerContext(Position.class, c -> {
+        registerContext(Pos.class, c -> {
             String input = c.popFirstArg();
             CommandSender sender = c.getSender();
-            Position sourceLoc = null;
+            Pos sourceLoc = null;
             if (sender instanceof Player) {
                 sourceLoc = ((Player) sender).getPosition();
             }
@@ -84,9 +80,9 @@ public class MinestomCommandContexts extends CommandContexts<MinestomCommandExec
             Double z = ACFUtil.parseDouble(split[2]);
 
             if (sourceLoc != null && rel) {
-                x += sourceLoc.getX();
-                y += sourceLoc.getY();
-                z += sourceLoc.getZ();
+                x += sourceLoc.x();
+                y += sourceLoc.y();
+                z += sourceLoc.z();
             } else if (rel) {
                 throw new InvalidCommandArgument(MinecraftMessageKeys.LOCATION_CONSOLE_NOT_RELATIVE);
             }
@@ -102,12 +98,12 @@ public class MinestomCommandContexts extends CommandContexts<MinestomCommandExec
                 if (pitch == null || yaw == null) {
                     throw new InvalidCommandArgument(MinecraftMessageKeys.LOCATION_PLEASE_SPECIFY_XYZ);
                 }
-                return new Position(x, y, z, yaw, pitch);
+                return new Pos(x, y, z, yaw, pitch);
             } else {
-                return new Position(x, y, z);
+                return new Pos(x, y, z);
             }
         });
-        registerContext(BlockPosition.class, c -> {
+        registerContext(Point.class, c -> {
             String input = c.popFirstArg();
             CommandSender sender = c.getSender();
             String[] split = ACFPatterns.COMMA.split(input);
@@ -123,7 +119,7 @@ public class MinestomCommandContexts extends CommandContexts<MinestomCommandExec
                 throw new InvalidCommandArgument(MinecraftMessageKeys.LOCATION_PLEASE_SPECIFY_XYZ);
             }
 
-            return new BlockPosition(x, y, z);
+            return new Vec(x, y, z);
         });
     }
 

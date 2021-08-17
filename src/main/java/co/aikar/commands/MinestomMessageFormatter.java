@@ -1,15 +1,15 @@
 package co.aikar.commands;
 
-import net.minestom.server.chat.ChatColor;
+import net.kyori.adventure.text.format.TextColor;
 
-public class MinestomMessageFormatter extends MessageFormatter<ChatColor> {
+public class MinestomMessageFormatter extends MessageFormatter<TextColor> {
 
-    public MinestomMessageFormatter(ChatColor... colors) {
+    public MinestomMessageFormatter(TextColor... colors) {
         super(colors);
     }
 
     @Override
-    String format(ChatColor color, String message) {
+    String format(TextColor color, String message) {
         return color + message;
     }
 

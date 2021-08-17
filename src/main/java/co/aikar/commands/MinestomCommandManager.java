@@ -1,8 +1,9 @@
 package co.aikar.commands;
 
 import co.aikar.commands.apachecommonslang.ApacheCommonsExceptionUtil;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import net.minestom.server.MinecraftServer;
-import net.minestom.server.chat.ChatColor;
 import net.minestom.server.command.CommandSender;
 import net.minestom.server.command.builder.Command;
 import net.minestom.server.entity.Player;
@@ -14,7 +15,7 @@ import java.util.function.BiPredicate;
 public class MinestomCommandManager extends CommandManager<
         CommandSender,
         MinestomCommandIssuer,
-        ChatColor,
+        TextColor,
         MinestomMessageFormatter,
         MinestomCommandExecutionContext,
         MinestomConditionContext
@@ -30,10 +31,10 @@ public class MinestomCommandManager extends CommandManager<
     private BiPredicate<CommandSender, String> customPermissionCheck = null;
 
     public MinestomCommandManager() {
-        this.formatters.put(MessageType.ERROR, defaultFormatter = new MinestomMessageFormatter(ChatColor.RED, ChatColor.YELLOW, ChatColor.RED));
-        this.formatters.put(MessageType.SYNTAX, new MinestomMessageFormatter(ChatColor.YELLOW, ChatColor.BRIGHT_GREEN, ChatColor.WHITE));
-        this.formatters.put(MessageType.INFO, new MinestomMessageFormatter(ChatColor.BLUE, ChatColor.DARK_GREEN, ChatColor.BRIGHT_GREEN));
-        this.formatters.put(MessageType.HELP, new MinestomMessageFormatter(ChatColor.CYAN, ChatColor.BRIGHT_GREEN, ChatColor.YELLOW));
+        this.formatters.put(MessageType.ERROR, defaultFormatter = new MinestomMessageFormatter(NamedTextColor.RED, NamedTextColor.YELLOW, NamedTextColor.RED));
+        this.formatters.put(MessageType.SYNTAX, new MinestomMessageFormatter(NamedTextColor.YELLOW, NamedTextColor.GREEN, NamedTextColor.WHITE));
+        this.formatters.put(MessageType.INFO, new MinestomMessageFormatter(NamedTextColor.BLUE, NamedTextColor.DARK_GREEN, NamedTextColor.GREEN));
+        this.formatters.put(MessageType.HELP, new MinestomMessageFormatter(NamedTextColor.AQUA, NamedTextColor.GREEN, NamedTextColor.YELLOW));
         getLocales();
     }
 

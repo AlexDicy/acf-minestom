@@ -1,7 +1,7 @@
 package co.aikar.commands;
 
+import net.kyori.adventure.text.format.TextColor;
 import net.minestom.server.MinecraftServer;
-import net.minestom.server.chat.ChatColor;
 import net.minestom.server.command.CommandSender;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.Player;
@@ -17,15 +17,13 @@ public class MinestomCommandCompletions extends CommandCompletions<MinestomComma
     public MinestomCommandCompletions(MinestomCommandManager manager) {
         super(manager);
         registerAsyncCompletion("mobs", c -> {
-            final Stream<String> normal = Stream.of(EntityType.values())
+            final Stream<String> normal = EntityType.values().stream()
                     .map(entityType -> ACFUtil.simplifyString(entityType.name()));
             return normal.collect(Collectors.toList());
         });
         registerAsyncCompletion("chatcolors", c -> {
-            Stream<ChatColor> colors = Stream.of(ACFMinestomUtil.getAllChatColors());
-            if (c.hasConfig("colorsonly")) {
-                colors = colors.filter(color -> !color.isSpecial());
-            }
+            Stream<TextColor> colors = Stream.of(ACFMinestomUtil.getAllChatColors());
+
             String filter = c.getConfig("filter");
             if (filter != null) {
                 Set<String> filters = Arrays.stream(ACFPatterns.COLON.split(filter))
@@ -38,7 +36,7 @@ public class MinestomCommandCompletions extends CommandCompletions<MinestomComma
         });
         registerCompletion("players", c -> {
             CommandSender sender = c.getSender();
-            if(sender == null) {
+            if (sender == null) {
                 throw new RuntimeException("Sender cannot be null");
             }
 
