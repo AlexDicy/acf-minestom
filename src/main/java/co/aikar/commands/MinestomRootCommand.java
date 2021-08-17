@@ -14,7 +14,6 @@ import net.minestom.server.command.builder.suggestion.SuggestionCallback;
 import net.minestom.server.command.builder.suggestion.SuggestionEntry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jglrxavpok.hephaistos.nbt.NBTReader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,28 +41,11 @@ public class MinestomRootCommand extends Command implements RootCommand, Command
     public void addChild(BaseCommand command) {
         if (this.defCommand == null || !command.subCommands.get(BaseCommand.DEFAULT).isEmpty()) {
             this.defCommand = command;
-            
+
             for(Map.Entry<String, RegisteredCommand> entry : command.subCommands.entries()) {
                 if(entry.getValue().complete.isEmpty()) {
                     addSyntax(this, ArgumentType.Literal(entry.getKey()));
-                } else if(entry.getKey().equals("__default")) {
-                    String[] complete = entry.getValue().complete.split(" ");
-
-                    Argument<?>[] arguments = new Argument[complete.length];
-
-                    for(int i=0; i<arguments.length; i++) {
-                        String id = complete[i].toLowerCase().replaceAll("[^a-z0-9/._-]", "");
-
-                        if(complete[i].equalsIgnoreCase("@players")) {
-                            arguments[i] = ArgumentType.Entity(id).onlyPlayers(true);
-                        } else {
-                            arguments[i] = ArgumentType.String(id);
-                            arguments[i].setSuggestionCallback(this);
-                        }
-                    }
-
-                    addSyntax(this, arguments);
-                } else {
+                } else if(!entry.getKey().equals("__default")) {
                     String[] complete = entry.getValue().complete.split(" ");
 
                     Argument<?>[] arguments = new Argument[complete.length+1];
