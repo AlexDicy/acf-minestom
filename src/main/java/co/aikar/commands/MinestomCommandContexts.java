@@ -1,6 +1,9 @@
 package co.aikar.commands;
 
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.format.TextFormat;
 import net.minestom.server.command.CommandSender;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
@@ -50,13 +53,24 @@ public class MinestomCommandContexts extends CommandContexts<MinestomCommandExec
                 return getPlayer(c.getIssuer(), arg, isOptional);
             }
         });
-        registerContext(NamedTextColor.class, c -> {
+        registerContext(TextFormat.class, c -> {
             String first = c.popFirstArg();
-            NamedTextColor match = NamedTextColor.NAMES.value(first);
+            Stream<? extends TextFormat> colors = NamedTextColor.NAMES.values().stream();
+            if (!c.hasFlag("colorsonly")) {
+                colors = Stream.concat(colors, Stream.of(TextDecoration.values()));
+            }
+            String filter = c.getFlagValue("filter", (String) null);
+            if (filter != null) {
+                filter = ACFUtil.simplifyString(filter);
+                String finalFilter = filter;
+                colors = colors.filter(color -> finalFilter.equals(ACFUtil.simplifyString(color.toString())));
+            }
+
+            TextColor match = NamedTextColor.NAMES.value(first);
             if (match == null) {
-                String valid = Stream.of(ACFMinestomUtil.getAllChatColors())
-                        .map(color -> "<c2>" + ACFUtil.simplifyString(color.toString()) + "</c2>")
+                String valid = colors.map(color -> "<c2>" + ACFUtil.simplifyString(color.toString()) + "</c2>")
                         .collect(Collectors.joining("<c1>,</c1> "));
+
                 throw new InvalidCommandArgument(MessageKeys.PLEASE_SPECIFY_ONE_OF, "{valid}", valid);
             }
             return match;
