@@ -6,16 +6,20 @@ import net.minestom.server.command.CommandSender;
 import net.minestom.server.command.builder.Command;
 import net.minestom.server.command.builder.CommandContext;
 import net.minestom.server.command.builder.CommandExecutor;
+import net.minestom.server.command.builder.arguments.Argument;
+import net.minestom.server.command.builder.arguments.ArgumentType;
 import net.minestom.server.command.builder.condition.CommandCondition;
 import net.minestom.server.command.builder.suggestion.Suggestion;
 import net.minestom.server.command.builder.suggestion.SuggestionCallback;
 import net.minestom.server.command.builder.suggestion.SuggestionEntry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jglrxavpok.hephaistos.nbt.NBTReader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class MinestomRootCommand extends Command implements RootCommand, CommandExecutor, CommandCondition, SuggestionCallback {
 
@@ -38,6 +42,47 @@ public class MinestomRootCommand extends Command implements RootCommand, Command
     public void addChild(BaseCommand command) {
         if (this.defCommand == null || !command.subCommands.get(BaseCommand.DEFAULT).isEmpty()) {
             this.defCommand = command;
+            
+            for(Map.Entry<String, RegisteredCommand> entry : command.subCommands.entries()) {
+                if(entry.getValue().complete.isEmpty()) {
+                    addSyntax(this, ArgumentType.Literal(entry.getKey()));
+                } else if(entry.getKey().equals("__default")) {
+                    String[] complete = entry.getValue().complete.split(" ");
+
+                    Argument<?>[] arguments = new Argument[complete.length];
+
+                    for(int i=0; i<arguments.length; i++) {
+                        String id = complete[i].toLowerCase().replaceAll("[^a-z0-9/._-]", "");
+
+                        if(complete[i].equalsIgnoreCase("@players")) {
+                            arguments[i] = ArgumentType.Entity(id).onlyPlayers(true);
+                        } else {
+                            arguments[i] = ArgumentType.String(id);
+                            arguments[i].setSuggestionCallback(this);
+                        }
+                    }
+
+                    addSyntax(this, arguments);
+                } else {
+                    String[] complete = entry.getValue().complete.split(" ");
+
+                    Argument<?>[] arguments = new Argument[complete.length+1];
+                    arguments[0] = ArgumentType.Literal(entry.getKey());
+
+                    for(int i=1; i<arguments.length; i++) {
+                        String id = complete[i-1].toLowerCase().replaceAll("[^a-z0-9/._-]", "");
+
+                        if(complete[i-1].equalsIgnoreCase("@players")) {
+                            arguments[i] = ArgumentType.Entity(id).onlyPlayers(true);
+                        } else {
+                            arguments[i] = ArgumentType.String(id);
+                            arguments[i].setSuggestionCallback(this);
+                        }
+                    }
+
+                    addSyntax(this, arguments);
+                }
+            }
         }
         addChildShared(this.children, this.subCommands, command);
     }
