@@ -12,6 +12,7 @@ import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.Player;
 import net.minestom.server.inventory.PlayerInventory;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -147,7 +148,9 @@ public class MinestomCommandContexts extends CommandContexts<MinestomCommandExec
                 entities = entities.filter(e -> finalFilter.equals(ACFUtil.simplifyString(e.toString())));
             }
 
-            Optional<? extends EntityType> match = entities.filter(entityType -> entityType.name().equalsIgnoreCase(first)).findFirst();
+            List<? extends EntityType> filteredEntities = entities.collect(Collectors.toList());
+
+            Optional<? extends EntityType> match = filteredEntities.stream().filter(entityType -> entityType.name().equalsIgnoreCase(first)).findFirst();
             if (match.isEmpty()) {
                 String valid = entities.map(e -> "<c2>" + ACFUtil.simplifyString(e.toString()) + "</c2>")
                         .collect(Collectors.joining("<c1>,</c1> "));
