@@ -150,9 +150,11 @@ public class MinestomCommandContexts extends CommandContexts<MinestomCommandExec
 
             List<? extends EntityType> filteredEntities = entities.collect(Collectors.toList());
 
-            Optional<? extends EntityType> match = filteredEntities.stream().filter(entityType -> entityType.name().equalsIgnoreCase(first)).findFirst();
+            Optional<? extends EntityType> match = filteredEntities.stream().filter(entityType -> {
+                return entityType.name().equalsIgnoreCase(first) || entityType.key().value().equalsIgnoreCase(first);
+            }).findFirst();
             if (match.isEmpty()) {
-                String valid = filteredEntities.stream().map(e -> "<c2>" + ACFUtil.simplifyString(e.toString()) + "</c2>")
+                String valid = filteredEntities.stream().map(e -> "<c2>" + e.toString() + "</c2>")
                         .collect(Collectors.joining("<c1>,</c1> "));
 
                 throw new InvalidCommandArgument(MessageKeys.PLEASE_SPECIFY_ONE_OF, "{valid}", valid);
