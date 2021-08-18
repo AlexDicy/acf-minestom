@@ -8,9 +8,11 @@ import net.minestom.server.command.CommandSender;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.coordinate.Vec;
+import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.Player;
 import net.minestom.server.inventory.PlayerInventory;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -134,6 +136,25 @@ public class MinestomCommandContexts extends CommandContexts<MinestomCommandExec
             }
 
             return new Vec(x, y, z);
+        });
+        registerContext(EntityType.class, c -> {
+            String first = c.popFirstArg();
+            Stream<? extends EntityType> entities = EntityType.values().stream();
+            String filter = c.getFlagValue("filter", (String) null);
+            if (filter != null) {
+                filter = ACFUtil.simplifyString(filter);
+                String finalFilter = filter;
+                entities = entities.filter(e -> finalFilter.equals(ACFUtil.simplifyString(e.toString())));
+            }
+
+            Optional<? extends EntityType> match = entities.filter(entityType -> entityType.name().equalsIgnoreCase(first)).findFirst();
+            if (match.isEmpty()) {
+                String valid = entities.map(e -> "<c2>" + ACFUtil.simplifyString(e.toString()) + "</c2>")
+                        .collect(Collectors.joining("<c1>,</c1> "));
+
+                throw new InvalidCommandArgument(MessageKeys.PLEASE_SPECIFY_ONE_OF, "{valid}", valid);
+            }
+            return match.get();
         });
     }
 
