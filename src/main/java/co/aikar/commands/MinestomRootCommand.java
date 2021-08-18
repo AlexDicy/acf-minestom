@@ -55,10 +55,14 @@ public class MinestomRootCommand extends Command implements RootCommand, Command
                     for(int i=0; i<arguments.length; i++) {
                         String id = complete[i].toLowerCase().replaceAll("[^a-z0-9/._-]", "");
 
-                        if(complete[i].equalsIgnoreCase("@players")) {
+                        if(complete[i-1].equalsIgnoreCase("@players")) {
                             arguments[i] = ArgumentType.Entity(id).onlyPlayers(true);
                         } else {
-                            arguments[i] = ArgumentType.String(id);
+                            if (entry.getValue().parameters[i].isOptional()) {
+                                arguments[i] = ArgumentType.String(id);
+                            } else {
+                                arguments[i] = new OptionalArgumentString(id);
+                            }
                             arguments[i].setSuggestionCallback(this);
                         }
                     }
@@ -76,7 +80,11 @@ public class MinestomRootCommand extends Command implements RootCommand, Command
                         if(complete[i-1].equalsIgnoreCase("@players")) {
                             arguments[i] = ArgumentType.Entity(id).onlyPlayers(true);
                         } else {
-                            arguments[i] = ArgumentType.String(id);
+                            if (entry.getValue().parameters[i].isOptional()) {
+                                arguments[i] = ArgumentType.String(id);
+                            } else {
+                                arguments[i] = new OptionalArgumentString(id);
+                            }
                             arguments[i].setSuggestionCallback(this);
                         }
                     }
