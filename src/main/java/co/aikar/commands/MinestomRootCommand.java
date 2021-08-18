@@ -55,7 +55,7 @@ public class MinestomRootCommand extends Command implements RootCommand, Command
                     for(int i=0; i<arguments.length; i++) {
                         String id = complete[i].toLowerCase().replaceAll("[^a-z0-9/._-]", "");
 
-                        if(complete[i-1].equalsIgnoreCase("@players")) {
+                        if(complete[i].equalsIgnoreCase("@players")) {
                             arguments[i] = ArgumentType.Entity(id).onlyPlayers(true);
                         } else {
                             if (entry.getValue().parameters[i].isOptional()) {
