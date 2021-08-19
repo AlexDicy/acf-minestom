@@ -1,8 +1,11 @@
 package co.aikar.commands;
 
-import net.minestom.server.command.builder.arguments.ArgumentString;
-
-public class OptionalArgumentString extends ArgumentString {
+/**
+ * Argument which will take a string and is optional
+ * <p>
+ * Example: Hey I am a string
+ */
+public class OptionalArgumentString extends GreedyArgumentString {
     public OptionalArgumentString(String id) {
         super(id);
     }
@@ -10,5 +13,10 @@ public class OptionalArgumentString extends ArgumentString {
     @Override
     public boolean isOptional() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("OptionalString<%s>", getId());
     }
 }
