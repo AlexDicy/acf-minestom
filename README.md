@@ -14,7 +14,7 @@ repositories {
 Add the Jitpack and Aikar repository
 ```
 dependencies {
-    compile 'com.github.Archy-X:acf-minestom:0.5.0-SNAPSHOT'
+    compile 'com.github.AlexDicy:acf-minestom:0.5.0-SNAPSHOT'
 }
 ```
 Add the dependency
@@ -53,7 +53,7 @@ Add the repositories
 ```
 <dependencies>
     <dependency>
-        <groupId>com.github.Archy-X</groupId>
+        <groupId>com.github.AlexDicy</groupId>
         <artifactId>acf-minestom</artifactId>
         <version>0.5.0-SNAPSHOT</version>
         <scope>compile</scope>
