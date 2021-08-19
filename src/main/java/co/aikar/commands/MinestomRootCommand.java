@@ -108,7 +108,7 @@ public class MinestomRootCommand extends Command implements RootCommand, Command
 
                     Argument<?> argument;
                     if (param.isOptional()) {
-                        argument = new OptionalArgumentString(param.getName());
+                        argument = param.consumesRest ? new OptionalArgumentString(param.getName()) : ArgumentType.Word(param.getName());
                     } else if (param.consumesRest) {
                         argument = new GreedyArgumentString(param.getName());
                     } else {
