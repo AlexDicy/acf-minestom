@@ -8,6 +8,7 @@ package co.aikar.commands;
 public class OptionalArgumentString extends GreedyArgumentString {
     public OptionalArgumentString(String id) {
         super(id);
+        setDefaultValue(() -> null);
     }
 
     @Override
