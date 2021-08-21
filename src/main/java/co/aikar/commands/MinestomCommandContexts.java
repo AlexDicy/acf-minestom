@@ -11,6 +11,7 @@ import net.minestom.server.coordinate.Vec;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.Player;
 import net.minestom.server.inventory.PlayerInventory;
+import net.minestom.server.item.Material;
 
 import java.util.List;
 import java.util.Optional;
@@ -155,6 +156,29 @@ public class MinestomCommandContexts extends CommandContexts<MinestomCommandExec
             }).findFirst();
             if (match.isEmpty()) {
                 String valid = filteredEntities.stream().map(e -> "<c2>" + e.toString() + "</c2>")
+                        .collect(Collectors.joining("<c1>,</c1> "));
+
+                throw new InvalidCommandArgument(MessageKeys.PLEASE_SPECIFY_ONE_OF, "{valid}", valid);
+            }
+            return match.get();
+        });
+        registerContext(Material.class, c -> {
+            String first = c.popFirstArg();
+            Stream<? extends Material> materials = Material.values().stream();
+            String filter = c.getFlagValue("filter", (String) null);
+            if (filter != null) {
+                filter = ACFUtil.simplifyString(filter);
+                String finalFilter = filter;
+                materials = materials.filter(m -> finalFilter.equals(ACFUtil.simplifyString(m.toString())));
+            }
+
+            List<? extends Material> filteredMaterials = materials.collect(Collectors.toList());
+
+            Optional<? extends Material> match = filteredMaterials.stream().filter(material -> {
+                return material.name().equalsIgnoreCase(first) || material.key().value().equalsIgnoreCase(first);
+            }).findFirst();
+            if (match.isEmpty()) {
+                String valid = filteredMaterials.stream().map(e -> "<c2>" + e.toString() + "</c2>")
                         .collect(Collectors.joining("<c1>,</c1> "));
 
                 throw new InvalidCommandArgument(MessageKeys.PLEASE_SPECIFY_ONE_OF, "{valid}", valid);
