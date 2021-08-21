@@ -119,12 +119,13 @@ public class MinestomRootCommand extends Command implements RootCommand, Command
                             argument = ArgumentType.Word(param.getName());
                         }
                     }
-                    if (param.getDefaultValue().trim().length() > 0) {
+                    String defaultValue = param.getDefaultValue();
+                    if (defaultValue != null && defaultValue.trim().length() > 0) {
                         if (argument instanceof ArgumentWord) {
-                            ((ArgumentWord) argument).setDefaultValue(param.getDefaultValue());
+                            ((ArgumentWord) argument).setDefaultValue(defaultValue);
                         }
                         if (argument instanceof ArgumentString) {
-                            ((ArgumentString) argument).setDefaultValue(param.getDefaultValue());
+                            ((ArgumentString) argument).setDefaultValue(defaultValue);
                         }
                     }
                     argument.setSuggestionCallback(this);
