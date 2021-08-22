@@ -108,8 +108,12 @@ public class MinestomRootCommand extends Command implements RootCommand, Command
 
                     Argument<?> argument;
                     if (param.getType().isEnum()) {
-                        //noinspection unchecked
-                        argument = ArgumentType.Enum(param.getName(), (Class<? extends Enum<?>>) param.getType());
+                        ArgumentLiteral[] enumArguments = new ArgumentLiteral[param.getType().getEnumConstants().length];
+                        int i = 0;
+                        for (Object constant : param.getType().getEnumConstants()) {
+                            enumArguments[i++] = ArgumentType.Literal(((Enum<?>) constant).name().toLowerCase());
+                        }
+                        argument = ArgumentType.Group(param.getName(), enumArguments);
                         if (param.isOptional()) {
                             argument.setDefaultValue(() -> null);
                         }
