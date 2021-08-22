@@ -108,12 +108,8 @@ public class MinestomRootCommand extends Command implements RootCommand, Command
 
                     Argument<?> argument;
                     if (param.getType().isEnum()) {
-                        ArgumentLiteral[] enumArguments = new ArgumentLiteral[param.getType().getEnumConstants().length];
-                        int i = 0;
-                        for (Object constant : param.getType().getEnumConstants()) {
-                            enumArguments[i++] = ArgumentType.Literal(((Enum<?>) constant).name().toLowerCase());
-                        }
-                        argument = ArgumentType.Group(param.getName(), enumArguments);
+                        //noinspection unchecked
+                        argument = ArgumentType.Enum(param.getName(), (Class<? extends Enum<?>>) param.getType());
                         if (param.isOptional()) {
                             argument.setDefaultValue(() -> null);
                         }
@@ -138,7 +134,9 @@ public class MinestomRootCommand extends Command implements RootCommand, Command
                             ((ArgumentString) argument).setDefaultValue(() -> defaultValue);
                         }
                     }
-                    argument.setSuggestionCallback(this);
+                    if (!(argument instanceof ArgumentEnum)) {
+                        argument.setSuggestionCallback(this);
+                    }
 
                     arguments.add(argument);
                 }
