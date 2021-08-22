@@ -107,7 +107,13 @@ public class MinestomRootCommand extends Command implements RootCommand, Command
                     }
 
                     Argument<?> argument;
-                    if (param.isOptional()) {
+                    if (param.getType().isEnum()) {
+                        //noinspection unchecked
+                        argument = ArgumentType.Enum(param.getName(), (Class<? extends Enum<?>>) param.getType());
+                        if (param.isOptional()) {
+                            argument.setDefaultValue(() -> null);
+                        }
+                    } else if (param.isOptional()) {
                         argument = param.consumesRest ? new OptionalArgumentString(param.getName()) : ArgumentType.Word(param.getName());
                     } else if (param.consumesRest) {
                         argument = new GreedyArgumentString(param.getName());
