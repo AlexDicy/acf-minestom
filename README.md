@@ -14,7 +14,7 @@ repositories {
 Add the Jitpack and Aikar repository
 ```
 dependencies {
-    compile 'com.github.AlexDicy:acf-minestom:v1.2-SNAPSHOT'
+    compile 'com.github.AlexDicy:acf-minestom:v1.3-SNAPSHOT'
 }
 ```
 Add the dependency
@@ -55,7 +55,7 @@ Add the repositories
     <dependency>
         <groupId>com.github.AlexDicy</groupId>
         <artifactId>acf-minestom</artifactId>
-        <version>v1.2-SNAPSHOT</version>
+        <version>v1.3-SNAPSHOT</version>
         <scope>compile</scope>
     </dependency>
 </dependencies>

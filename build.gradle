@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    implementation('com.github.Minestom:Minestom:23c76bc799') {
+    compileOnly('com.github.Minestom:Minestom:23c76bc799') {
         exclude group: "net.minestom", module: "minestom-data-full"
     }
 
