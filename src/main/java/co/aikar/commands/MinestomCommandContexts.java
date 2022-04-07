@@ -149,7 +149,7 @@ public class MinestomCommandContexts extends CommandContexts<MinestomCommandExec
                 entities = entities.filter(e -> finalFilter.equals(ACFUtil.simplifyString(e.toString())));
             }
 
-            List<? extends EntityType> filteredEntities = entities.collect(Collectors.toList());
+            List<? extends EntityType> filteredEntities = entities.toList();
 
             Optional<? extends EntityType> match = filteredEntities.stream().filter(entityType -> {
                 return entityType.name().equalsIgnoreCase(first) || entityType.key().value().equalsIgnoreCase(first);
@@ -172,7 +172,7 @@ public class MinestomCommandContexts extends CommandContexts<MinestomCommandExec
                 materials = materials.filter(m -> finalFilter.equals(ACFUtil.simplifyString(m.toString())));
             }
 
-            List<? extends Material> filteredMaterials = materials.collect(Collectors.toList());
+            List<? extends Material> filteredMaterials = materials.toList();
 
             Optional<? extends Material> match = filteredMaterials.stream().filter(material -> {
                 return material.name().equalsIgnoreCase(first) || material.key().value().equalsIgnoreCase(first);
@@ -189,7 +189,7 @@ public class MinestomCommandContexts extends CommandContexts<MinestomCommandExec
 
 
     Player getPlayer(MinestomCommandIssuer issuer, String lookup, boolean allowMissing) throws InvalidCommandArgument {
-        if(issuer.isPlayer() && (lookup.equalsIgnoreCase("@s") || lookup.equalsIgnoreCase("@p"))) {
+        if (issuer.isPlayer() && (lookup.equalsIgnoreCase("@s") || lookup.equalsIgnoreCase("@p"))) {
             return issuer.getPlayer();
         }
 

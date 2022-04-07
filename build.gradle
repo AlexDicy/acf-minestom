@@ -1,40 +1,36 @@
 buildscript {
     repositories {
-        jcenter()
         mavenCentral()
         maven {
             name 'JitPack'
             url 'https://jitpack.io'
         }
     }
-    dependencies {
-        //classpath 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
-    }
 }
 
 apply plugin: 'java-library'
 apply plugin: 'java'
-//apply plugin: 'com.github.johnrengelman.shadow'
 
 group 'co.aikar'
 version '0.5.0-SNAPSHOT'
 
 compileJava   {
-    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_17
 }
 
 repositories {
     mavenCentral()
     maven { url 'https://repo.spongepowered.org/maven' }
-    maven { url 'https://repo.velocitypowered.com/snapshots/' }
     maven { url 'https://jitpack.io' }
     maven { url 'https://repo.aikar.co/content/groups/aikar/' }
 }
 
 dependencies {
-    compileOnly('com.github.Minestom:Minestom:23c76bc799') {
+    compileOnly('com.github.Minestom:Minestom:3c2ef39d1b') {
         exclude group: "net.minestom", module: "minestom-data-full"
     }
 
-    api 'co.aikar:acf-core:0.5.0-SNAPSHOT'
+    //noinspection GradlePackageUpdate
+    compileOnly('com.google.guava:guava:31.0.1-jre')
+    api 'co.aikar:acf-core:0.5.1-SNAPSHOT'
 }

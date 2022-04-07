@@ -49,6 +49,7 @@ public class MinestomCommandCompletions extends CommandCompletions<MinestomComma
             }
 
             matchedPlayers.sort(String.CASE_INSENSITIVE_ORDER);
+            matchedPlayers.add(0, "@p");
             return matchedPlayers;
         });
     }

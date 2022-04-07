@@ -182,6 +182,26 @@ public class MinestomRootCommand extends Command implements RootCommand, Command
     }
 
     @Override
+    public void apply(@NotNull CommandSender sender, @NotNull CommandContext context, @NotNull Suggestion suggestion) {
+        String[] args = context.getInput().split(" ");
+        if (args.length > 0) {
+            args = Arrays.copyOfRange(args, 1, args.length);
+        }
+
+        if (context.getInput().endsWith(" ")) {
+            args = Arrays.copyOf(args, args.length + 1);
+            args[args.length - 1] = "";
+            suggestion.setStart(context.getInput().length() + 1);
+        }
+
+        List<String> completions = getTabCompletions(manager.getCommandIssuer(sender), context.getCommandName(), args);
+        for (String completion : completions) {
+            if (!context.getInput().endsWith(" ") && completion.startsWith("<") && completion.endsWith(">")) continue;
+            suggestion.addEntry(new SuggestionEntry(completion));
+        }
+    }
+
+    @Override
     public CommandManager getManager() {
         return manager;
     }
@@ -202,23 +222,4 @@ public class MinestomRootCommand extends Command implements RootCommand, Command
     }
 
 
-    @Override
-    public void apply(@NotNull CommandSender sender, @NotNull CommandContext context, @NotNull Suggestion suggestion) {
-        String[] args = context.getInput().split(" ");
-        if (args.length > 0) {
-            args = Arrays.copyOfRange(args, 1, args.length);
-        }
-
-        if (context.getInput().endsWith(" ")) {
-            args = Arrays.copyOf(args, args.length + 1);
-            args[args.length - 1] = "";
-            suggestion.setStart(context.getInput().length() + 1);
-        }
-
-        List<String> completions = getTabCompletions(manager.getCommandIssuer(sender), context.getCommandName(), args);
-        for (String completion : completions) {
-            if (!context.getInput().endsWith(" ") && completion.startsWith("<") && completion.endsWith(">")) continue;
-            suggestion.addEntry(new SuggestionEntry(completion));
-        }
-    }
 }
