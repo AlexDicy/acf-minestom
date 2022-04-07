@@ -30,7 +30,6 @@ dependencies {
         exclude group: "net.minestom", module: "minestom-data-full"
     }
 
-    //noinspection GradlePackageUpdate
-    compileOnly('com.google.guava:guava:31.0.1-jre')
+    implementation('com.google.guava:guava:31.1-jre')
     api 'co.aikar:acf-core:0.5.1-SNAPSHOT'
 }
