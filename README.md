@@ -5,20 +5,20 @@ This an implementation of [ACF](https://github.com/aikar/commands) in [Minestom]
 
 ### Gradle
 
-```
+```groovy
 repositories {
     maven { url 'https://jitpack.io' }
     maven { url 'https://repo.aikar.co/content/groups/aikar/' }
 }
 ```
 Add the Jitpack and Aikar repository
-```
+```groovy
 dependencies {
     compile 'com.github.AlexDicy:acf-minestom:v1.5-SNAPSHOT'
 }
 ```
 Add the dependency
-```
+```groovy
 plugins {
     id "com.github.johnrengelman.shadow" version "6.1.0"
 }
@@ -37,7 +37,7 @@ compileJava {
 Add the shadow plugin, relocation info, and compiler info
 
 ### Maven
-```
+```xml
 <repositories>
     <repository>
         <id>jitpack.io</id>
@@ -50,7 +50,7 @@ Add the shadow plugin, relocation info, and compiler info
 </repositories>
 ```
 Add the repositories
-```
+```xml
 <dependencies>
     <dependency>
         <groupId>com.github.AlexDicy</groupId>
@@ -61,7 +61,7 @@ Add the repositories
 </dependencies>
 ```
 Add the dependency
-```
+```xml
 <build>
     <plugins>
         <plugin>
@@ -94,7 +94,7 @@ Add the dependency
 </build>
 ```
 Shade the dependency and relocate
-```
+```xml
 <plugin>
     <version>3.7.0</version>
     <groupId>org.apache.maven.plugins</groupId>
