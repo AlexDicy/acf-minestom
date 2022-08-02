@@ -29,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Function;
 
+@SuppressWarnings("rawtypes")
 public class MinestomRootCommand extends Command implements RootCommand, CommandExecutor, SuggestionCallback {
     private static final Map<Class<?>, Function<String, Argument<?>>> CLASS_ARGUMENT_MAP = new HashMap<>();
 
@@ -57,8 +58,8 @@ public class MinestomRootCommand extends Command implements RootCommand, Command
     private final MinestomCommandManager manager;
     private final String name;
     private BaseCommand defCommand;
-    private SetMultimap<String, RegisteredCommand> subCommands = HashMultimap.create();
-    private List<BaseCommand> children = new ArrayList<>();
+    private final SetMultimap<String, RegisteredCommand> subCommands = HashMultimap.create();
+    private final List<BaseCommand> children = new ArrayList<>();
     boolean isRegistered = false;
 
     MinestomRootCommand(MinestomCommandManager manager, String name) {

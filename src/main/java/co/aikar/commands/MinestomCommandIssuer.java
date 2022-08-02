@@ -58,10 +58,10 @@ public class MinestomCommandIssuer implements CommandIssuer {
 
     @Override
     public boolean hasPermission(String permission) {
-        BiPredicate<CommandSender, String> customCheck = ((MinestomCommandManager)MinestomCommandManager.getCurrentCommandManager())
+        BiPredicate<CommandSender, String> customCheck = ((MinestomCommandManager) MinestomCommandManager.getCurrentCommandManager())
                 .getCustomPermissionCheck();
 
-        if(customCheck != null) {
+        if (customCheck != null) {
             return customCheck.test(sender, permission);
         }
 
