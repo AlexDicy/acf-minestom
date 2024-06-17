@@ -64,7 +64,7 @@ public class ACFMinestomUtil {
     }
 
     static boolean isValidItem(ItemStack item) {
-        return item != null && item.getMaterial() != Material.AIR && item.getAmount() > 0;
+        return item != null && item.material() != Material.AIR && item.amount() > 0;
     }
 
     static NamedTextColor[] getAllChatColors() {
