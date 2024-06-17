@@ -46,7 +46,7 @@ public class ACFMinestomUtil {
             return null;
         }
 
-        return matches.get(0);
+        return matches.getFirst();
     }
 
     private static List<Player> matchPlayer(String query) {

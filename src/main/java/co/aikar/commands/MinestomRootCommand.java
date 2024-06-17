@@ -83,7 +83,7 @@ public class MinestomRootCommand extends Command implements RootCommand, Command
                     continue;
                 }
 
-                // handle sub sub commands
+                // handle sub commands
                 List<Argument<?>> arguments = new ArrayList<>();
 
                 if (!isForwardingCommand) {
@@ -128,7 +128,7 @@ public class MinestomRootCommand extends Command implements RootCommand, Command
                         }
                     }
                     String defaultValue = param.getDefaultValue();
-                    if (!(defaultValue != null && defaultValue.trim().length() == 0)) {
+                    if (!(defaultValue != null && defaultValue.trim().isEmpty())) {
                         if (argument instanceof ArgumentWord) {
                             ((ArgumentWord) argument).setDefaultValue(() -> defaultValue);
                         }
