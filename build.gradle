@@ -1,43 +1,31 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            name 'JitPack'
-            url 'https://jitpack.io'
-        }
-    }
-}
-
 plugins {
     id("maven-publish")
+    id("java")
+    id("java-library")
 }
-
-apply plugin: 'java-library'
-apply plugin: 'java'
 
 group 'co.aikar'
 version '0.5.2-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spongepowered.org/maven' }
+    maven { url 'https://repo.aikar.co/content/groups/aikar/' }
+}
+
+dependencies {
+    compileOnly('net.minestom:minestom-snapshots:f8b6eb0d0b') {
+        exclude group: "net.minestom", module: "minestom-data-full"
+    }
+
+    implementation('com.google.guava:guava:33.3.0-jre')
+    api 'co.aikar:acf-core:0.5.1-SNAPSHOT'
+}
 
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(21))
     }
-}
-
-repositories {
-    mavenCentral()
-    maven { url 'https://repo.spongepowered.org/maven' }
-    maven { url 'https://jitpack.io' }
-    maven { url 'https://repo.aikar.co/content/groups/aikar/' }
-}
-
-dependencies {
-    compileOnly('net.minestom:minestom-snapshots:8736fc43d8') {
-        exclude group: "net.minestom", module: "minestom-data-full"
-    }
-
-    implementation('com.google.guava:guava:31.1-jre')
-    api 'co.aikar:acf-core:0.5.1-SNAPSHOT'
 }
 
 publishing {
