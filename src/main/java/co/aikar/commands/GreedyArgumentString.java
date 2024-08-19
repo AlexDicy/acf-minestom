@@ -1,6 +1,8 @@
 package co.aikar.commands;
 
+import net.minestom.server.command.CommandSender;
 import net.minestom.server.command.builder.arguments.Argument;
+import net.minestom.server.command.builder.exception.ArgumentSyntaxException;
 import net.minestom.server.utils.binary.BinaryWriter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,9 +18,8 @@ public class GreedyArgumentString extends Argument<String> {
         super(id, true, true);
     }
 
-    @NotNull
     @Override
-    public String parse(@NotNull String input) {
+    public @NotNull String parse(@NotNull CommandSender commandSender, @NotNull String input) throws ArgumentSyntaxException {
         return input;
     }
 

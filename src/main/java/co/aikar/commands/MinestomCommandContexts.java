@@ -151,9 +151,9 @@ public class MinestomCommandContexts extends CommandContexts<MinestomCommandExec
 
             List<? extends EntityType> filteredEntities = entities.toList();
 
-            Optional<? extends EntityType> match = filteredEntities.stream().filter(entityType -> {
-                return entityType.name().equalsIgnoreCase(first) || entityType.key().value().equalsIgnoreCase(first);
-            }).findFirst();
+            Optional<? extends EntityType> match = filteredEntities.stream().filter(entityType ->
+                    entityType.name().equalsIgnoreCase(first) || entityType.key().value().equalsIgnoreCase(first)
+            ).findFirst();
             if (match.isEmpty()) {
                 String valid = filteredEntities.stream().map(e -> "<c2>" + e.toString() + "</c2>")
                         .collect(Collectors.joining("<c1>,</c1> "));
@@ -174,9 +174,9 @@ public class MinestomCommandContexts extends CommandContexts<MinestomCommandExec
 
             List<? extends Material> filteredMaterials = materials.toList();
 
-            Optional<? extends Material> match = filteredMaterials.stream().filter(material -> {
-                return material.name().equalsIgnoreCase(first) || material.key().value().equalsIgnoreCase(first);
-            }).findFirst();
+            Optional<? extends Material> match = filteredMaterials.stream().filter(material ->
+                    material.name().equalsIgnoreCase(first) || material.key().value().equalsIgnoreCase(first)
+            ).findFirst();
             if (match.isEmpty()) {
                 String valid = filteredMaterials.stream().map(e -> "<c2>" + e.toString() + "</c2>")
                         .collect(Collectors.joining("<c1>,</c1> "));

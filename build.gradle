@@ -1,35 +1,37 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            name 'JitPack'
-            url 'https://jitpack.io'
-        }
-    }
+plugins {
+    id("maven-publish")
+    id("java")
+    id("java-library")
 }
-
-apply plugin: 'java-library'
-apply plugin: 'java'
 
 group 'co.aikar'
-version '0.5.0-SNAPSHOT'
-
-compileJava   {
-    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_17
-}
+version '0.5.2-SNAPSHOT'
 
 repositories {
     mavenCentral()
     maven { url 'https://repo.spongepowered.org/maven' }
-    maven { url 'https://jitpack.io' }
     maven { url 'https://repo.aikar.co/content/groups/aikar/' }
 }
 
 dependencies {
-    compileOnly('com.github.Minestom:Minestom:af9dcf258a') {
+    compileOnly('net.minestom:minestom-snapshots:f8b6eb0d0b') {
         exclude group: "net.minestom", module: "minestom-data-full"
     }
 
-    implementation('com.google.guava:guava:31.1-jre')
+    implementation('com.google.guava:guava:33.3.0-jre')
     api 'co.aikar:acf-core:0.5.1-SNAPSHOT'
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
 }

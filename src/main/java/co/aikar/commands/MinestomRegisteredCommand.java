@@ -8,13 +8,4 @@ public class MinestomRegisteredCommand extends RegisteredCommand<MinestomCommand
         super(scope, command, method, prefSubCommand);
     }
 
-    @Override
-    public void preCommand() {
-        super.preCommand();
-    }
-
-    @Override
-    public void postCommand() {
-        super.postCommand();
-    }
 }
